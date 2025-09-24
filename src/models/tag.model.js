@@ -19,6 +19,10 @@ const tagSchema = new Schema(
         },
         updatedAt: {
             type: Date
+        },
+        deletedAt: {
+            type: Date,
+            required: null,
         }
     },
     {
