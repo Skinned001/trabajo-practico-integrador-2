@@ -14,13 +14,13 @@ export const createTag = async (req, res) => {
             newTag,
         });
     } catch (error) {
-        return res.statys(500).json("Error interno del servidor", error);
+        return res.status(500).json("Error interno del servidor", error);
     }
 };
 
 export const getAllTags = async (req, res) => {
     try {
-        const tags = await TagModel.find({ $ne: { deletedAt }}).populate("user");
+        const tags = await TagModel.find({ $ne: { deletedAt } }).populate("user");
         res.status(200).json({
             ok: true,
             data: tags,
@@ -83,13 +83,16 @@ export const updateTag = async (req, res) => {
 
 export const deleteTag = async (req, res) => {
     const { id } = req.params;
-    const softDelete = await TagModel.findByIdAndUpdate({
-        id,
-        deletedAt: Date.now()
-    }, 
-    { new: true })
     try {
-
+        const softDelete = await TagModel.findByIdAndUpdate({
+            id,
+            deletedAt: Date.now()
+        },
+            { new: true })
+        res.status(200).json({
+            msg: "Etiqueta borrada exitosamente(logica)",
+            softDelete,
+        })
     } catch (error) {
         console.log(error);
         return res.status(500).json({

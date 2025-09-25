@@ -36,6 +36,20 @@ export const getAllComments = async (req, res) => {
     }
 };
 
+export const getMycomment = async (req, res) => {
+    
+    try {
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Error interno del servidor"
+        })
+
+    }
+};
+
 export const getCommentById = async (req, res) => {
     const { id } = req.params;
     const { content, author, article } = req.body;
@@ -69,9 +83,15 @@ export const updateComment = async (req, res) => {
             },
             { new: true }
         );
+
+        res.status(200).json({
+            ok: true,
+            msg: "Comenatario actualizado correctamente",
+            data: updatedComment,
+        });
     } catch (error) {
         console.log(error);
-        return.res(500).json({
+        return res.status(500).json({
             ok: false,
             msg: "Error interno del servidor",
         });
@@ -79,10 +99,21 @@ export const updateComment = async (req, res) => {
 };
 
 export const deleteComment = async (req, res) => {
+    const { id } = req.params;
     try {
+        const deletedComment = await CommentModel.findByIdAndDelete(id);
 
+        res.status(200).json({
+            ok: true,
+            msg: "Comentario borrado correctamente",
+            data: deletedComment,
+        });
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Error interno del servidor"
+        });
     }
 
 };

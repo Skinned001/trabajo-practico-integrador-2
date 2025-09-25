@@ -1,6 +1,5 @@
 import { ArticleModel } from "../models/article.model.js";
 
-import { ArticleModel } from "../models/article.model.js";
 
 export const createArticle = async (req, res) => {
     const { title, content, excerpt, status, author, tags } = req.body;
@@ -26,8 +25,7 @@ export const createArticle = async (req, res) => {
         if (error.name === "ValidationError") {
             return res.status(400).json({
                 ok: false,
-                msg: "Error de validación",
-                errors: error.errors
+                msg: "Error de validación"
             });
         }
         return res.status(500).json({
