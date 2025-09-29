@@ -9,16 +9,21 @@ import {
 import { authAdmin } from "../middlewares/adminMiddleware.js";
 import { authMiddleware } from "../middlewares/authMiddleware.js";
 import { validator } from "../middlewares/validator.js";
-//import validaciones
+import {
+    createArticleValidations,
+    findArticleIDValidations,
+    updateArticleValidations,
+    deletedArticleValidations,
+} from "../middlewares/validations/article.validations.js";
 
 export const articleRoutes = Router();
 
-articleRoutes.post("/articles", authMiddleware, authAdmin, validator, createArticle);
+articleRoutes.post("/articles", authMiddleware, authAdmin, validator, createArticleValidations, createArticle);
 
 articleRoutes.get("/articles", authMiddleware, authAdmin, validator, getAllArticles);
 
-articleRoutes.get("/articles/:id", authMiddleware, authAdmin, validator, getArticleById);
+articleRoutes.get("/articles/:id", authMiddleware, authAdmin, validator, findArticleIDValidations, getArticleById);
 
-articleRoutes.put("/articles/:id", authMiddleware, authAdmin, validator, updateArticle);
+articleRoutes.put("/articles/:id", authMiddleware, authAdmin, validator, updateArticleValidations, updateArticle);
 
-articleRoutes.delete("/articles/:id", authMiddleware, authAdmin, validator, deleteArticle);
+articleRoutes.delete("/articles/:id", authMiddleware, authAdmin, validator, deletedArticleValidations, deleteArticle);

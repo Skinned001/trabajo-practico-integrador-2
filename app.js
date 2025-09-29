@@ -18,7 +18,7 @@ app.use(cors());
 app.use(cookieParser());
 
 //rutas
-app.use("api/", routes)
+app.use("/api/", routes)
 
 app.listen(PORT, async () => {
     try {
