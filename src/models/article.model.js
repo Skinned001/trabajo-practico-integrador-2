@@ -20,7 +20,8 @@ const articleSchema = new Schema(
         status: {
             type: String,
             enum: ["published", "archived"],
-            default: "published"
+            default: "published",
+            required: true
         },
         author: {
             type: Types.ObjectId,

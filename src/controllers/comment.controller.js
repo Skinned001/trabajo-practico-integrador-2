@@ -16,7 +16,10 @@ export const createComment = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        return res.status(500).json("Error interno del servidor", error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Error interno del servidor",
+        });
     }
 };
 
@@ -37,7 +40,7 @@ export const getAllComments = async (req, res) => {
 };
 
 export const getMycomment = async (req, res) => {
-    
+
     try {
 
     } catch (error) {
