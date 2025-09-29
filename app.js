@@ -8,6 +8,11 @@ import { routes } from './src/routes/index.js';
 const app = express();
 const PORT = process.env.PORT;
 
+const corsOptions = {
+    origin: `https://localhost:${PORT}`,
+    credentials: true,
+};
+
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -16,7 +21,11 @@ app.use(cookieParser());
 app.use("api/", routes)
 
 app.listen(PORT, async () => {
-    await connectDB();
-    console.log(`Servidor escuchando en el puerto ${PORT}`);
+    try {
+        connectDB();
+        console.log(`Servidor escuchando en el puerto https://localhost:${PORT}`);
+    } catch (error) {
+        console.log("Error al encender el servidor" + error);
+    }
 });
 

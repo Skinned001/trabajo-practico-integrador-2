@@ -13,7 +13,10 @@ export const createUser = async (req, res) => {
             newUser,
         });
     } catch (error) {
-        return res.status(500).json("Error interno del servidor", error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Error interno del servidor"
+        });
     }
 };
 
@@ -53,15 +56,19 @@ export const getUserById = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     const { id } = req.params;
-    const { username } = req.body;
-
+    const { username, email, password, role, profile } = req.body;
     try {
         const updatedUser = await UserModel.findByIdAndUpdate(
             id,
-            { username },
+            {
+                username,
+                email,
+                password,
+                role,
+                profile
+            },
             { new: true }
         );
-
         res.status(200).json({
             ok: true,
             msg: "Usuario actualizado correctamente",
@@ -71,23 +78,21 @@ export const updateUser = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            msg: "Error interno del servidor",
+            msg: "Error al actualizar usuario",
         });
     }
 };
 
 export const deleteUser = async (req, res) => {
     const { id } = req.params;
-
-    try{
+    try {
         const deletedUser = await UserModel.findByIdAndDelete(id);
-
         res.status(200).json({
             ok: true,
             msg: "Usuario borrado correctamente",
             data: deletedUser,
         });
-    } catch (error){
+    } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,

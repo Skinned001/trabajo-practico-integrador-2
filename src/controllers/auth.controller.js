@@ -4,27 +4,22 @@ import { hashPassword, comparePassword } from "../helpers/bcrypt.helper.js";
 import { ProfileModel } from "../models/profile.model.js";
 
 export const register = async (req, res) => {
-    const {
-        username,
-        email,
-        password,
-
-    } = req.body;
+    const { username, email, password, role, profile } = req.body;
     try {
         const hashedPassword = await hashPassword(password);
-
-
-        const user = await UserModel.create({
+        const newUser = await UserModel.create({
             username: username,
             email: email,
             password: hashedPassword,
             role: role,
+            profile: profile
         });
-
         res.status(201).json({
             msg: "Usuario registrado correctamente",
+            newUser,
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             ok: false,
             msg: "Error interno del servidor",

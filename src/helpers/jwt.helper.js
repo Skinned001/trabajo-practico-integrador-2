@@ -15,7 +15,7 @@ export const generateToken = (user) => {
       expiresIn: "1h",
     });
   } catch (error) {
-    throw new Error("Error al generar el token: " + error.message);
+    throw new Error("Error al generar el token: " + error);
   }
 };
 
@@ -23,6 +23,6 @@ export const verifyToken = (token) => {
   try {
     return jwt.verify(token, process.env.JWT_SECRET);
   } catch (error) {
-    throw new Error("Error al verificar el token:" + error.message);
+    throw new Error("Error al verificar el token:" + error);
   }
 };
