@@ -5,12 +5,20 @@ import {
     getCommentById,
     updateComment,
     deleteComment
-} from "../controllers/tag.controller.js";
+} from "../controllers/comment.controller.js";
+import { authAdmin } from "../middlewares/adminMiddleware.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { validator } from "../middlewares/validator.js";
+//import validations
 
 export const commentRoutes = Router();
 
-commentRoutes.post("/comments", createComment);
-commentRoutes.get("/comments", getAllComments);
-commentRoutes.get("/comments/:id", getCommentById);
-commentRoutes.put("/comments/:id", updateComment);
-commentRoutes.delete("/comments/:id", deleteComment);
+commentRoutes.post("/comments", authMiddleware, authAdmin, validator, createComment);
+
+commentRoutes.get("/comments", authMiddleware, authAdmin, validator, getAllComments);
+
+commentRoutes.get("/comments/:id", authMiddleware, authAdmin, validator, getCommentById);
+
+commentRoutes.put("/comments/:id", authMiddleware, authAdmin, validator, updateComment);
+
+commentRoutes.delete("/comments/:id", authMiddleware, authAdmin, validator, deleteComment);

@@ -14,7 +14,10 @@ export const createTag = async (req, res) => {
             newTag,
         });
     } catch (error) {
-        return res.status(500).json("Error interno del servidor", error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Error interno del servidor",
+        });
     }
 };
 
@@ -84,20 +87,16 @@ export const updateTag = async (req, res) => {
 export const deleteTag = async (req, res) => {
     const { id } = req.params;
     try {
-        const softDelete = await TagModel.findByIdAndUpdate({
-            id,
-            deletedAt: Date.now()
-        },
-            { new: true })
+        const deletedTag = await TagModel.findByIdAndDelete(id);
+        await ArticleModel.updateMany({ tags: id }, { $pull: { tags: id } });
         res.status(200).json({
-            msg: "Etiqueta borrada exitosamente(logica)",
-            softDelete,
-        })
+            msg: "Etiqueta eliminada y removida de sus artículos anteriores",
+            deletedTag,
+        });
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
-            ok: false,
-            msg: "Error interno del servidor",
+            ok:false,
+            msg: "Error al elimnar tags",
         });
     }
 };

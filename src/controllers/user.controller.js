@@ -25,7 +25,8 @@ export const getAllUsers = async (req, res) => {
         const listAll = await UserModel.find().populate("article");
         res.status(200).json({
             ok: true,
-            data: users,
+            msg: "Mostrando a todos los usuarios",
+            listAll,
         });
     } catch (error) {
         console.log(error);
@@ -86,17 +87,18 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     const { id } = req.params;
     try {
-        const deletedUser = await UserModel.findByIdAndDelete(id);
+        const deletedUser = await UserModel.findByIdAndUpdate(
+            id,
+            {
+                deletedAt: Date.now(),
+            },
+            { new: true }
+        );
         res.status(200).json({
-            ok: true,
-            msg: "Usuario borrado correctamente",
-            data: deletedUser,
+            msg: "Usuario eliminado correctamente",
+            deletedUser,
         });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            ok: false,
-            msg: "Error interno del servidor",
-        });
+        return res.status(500).json("Error al eliminar usuario " + error);
     }
 };

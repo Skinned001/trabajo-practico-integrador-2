@@ -1,7 +1,6 @@
 import { UserModel } from "../models/user.model.js";
 import { generateToken } from "../helpers/jwt.helper.js";
 import { hashPassword, comparePassword } from "../helpers/bcrypt.helper.js";
-import { ProfileModel } from "../models/profile.model.js";
 
 export const register = async (req, res) => {
     const { username, email, password, role, profile } = req.body;
@@ -30,49 +29,47 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     const { username, password } = req.body;
     try {
-        const user = await UserModel.findOne({
-            where: { username: username },
-            include: {
-                model: ProfileModel,
-                as: "profile",
-                attributes: ["first_name", "last_name"],
-            },
-        });
-        if (!user) {
-            return res.status(401).json({ message: "Credenciales inválidas." });
-        }
-        const validPassword = await comparePassword(password, user.password);
+        const loginUser = await UserModel.findOne({ username: username });
+        const validPassword = await comparePassword(password, loginUser.password);
         if (!validPassword) {
-            return res.status(401).json({ message: "Credenciales inválidas" });
+            return res.status(401).json("Credenciales invalidas");
         }
-
-        const token = generateToken(user); //Generar el token usando la función desde jwt.helper.js//
-
+        const token = generateToken(loginUser);
         res.cookie("token", token, {
-            httpOnly: true,
+            hhtpOnly: true,
             maxAge: 1000 * 60 * 60,
         });
-
         return res.status(200).json({
-            msg: "Sesión iniciada correctamente",
+            ok: true,
+            msg: "Login exitoso",
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             ok: false,
-            msg: "Error interno del servidor.",
+            msg: "Error al logearse",
         });
-        console.log(error);
     }
 };
 
 export const logout = (req, res) => {
-    res.clearCookie("token");
-    return res.json({ message: "Logout exitoso" });
+    try {
+        res.clearCookie("token");
+        return res.status(200).json({
+            ok: true,
+            msg: "Logout exitoso"
+        });
+    } catch (error) {
+        return res.status(500).json({
+            ok: false,
+            msg: "Error al deslogear",
+        });
+    }
 };
 
 export const profile = async (req, res) => {
-    const user = req.userLogged;
     try {
+        const currentUser = req.userLogged;
         res.status(200).json({
             first_name: user.first_name,
             last_name: user.last_name,
