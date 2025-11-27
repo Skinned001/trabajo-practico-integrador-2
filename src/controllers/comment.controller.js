@@ -2,7 +2,6 @@ import { CommentModel } from "../models/comment.model.js";
 
 export const createComment = async (req, res) => {
     const { content, author, article } = req.body;
-
     try {
         const newComment = await CommentModel.create({
             content,
@@ -54,7 +53,7 @@ export const getCommentsFromArticle = async (req, res) => {
         return res.status(500).json({
             ok: false,
             msg: "Error al mostrar comenantarios",
-        })
+        });
     }
 };
 

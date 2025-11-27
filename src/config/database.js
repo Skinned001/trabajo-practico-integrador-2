@@ -10,3 +10,5 @@ export const connectDB = async () => {
         console.log("No se pudo conectar a la base de datos", error);
     }
 };
+
+

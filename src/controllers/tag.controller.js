@@ -96,7 +96,7 @@ export const deleteTag = async (req, res) => {
     } catch (error) {
         return res.status(500).json({
             ok:false,
-            msg: "Error al elimnar tags",
+            msg: "Error al elimnar etiquetas",
         });
     }
 };

@@ -18,7 +18,8 @@ const tagSchema = new Schema(
             type: Date
         },
         updatedAt: {
-            type: Date
+            type: Date,
+            default: Date.now
         },
         deletedAt: {
             type: Date,
