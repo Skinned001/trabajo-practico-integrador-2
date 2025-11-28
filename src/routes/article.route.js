@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+    myArticles,
     createArticle,
     getAllArticles,
     getArticleById,
@@ -18,12 +19,17 @@ import {
 
 export const articleRoutes = Router();
 
+
 articleRoutes.post("/articles", authMiddleware, authAdmin, validator, createArticleValidations, createArticle);
 
 articleRoutes.get("/articles", authMiddleware, authAdmin, validator, getAllArticles);
+
+articleRoutes.get("/articles/:my", authMiddleware, authAdmin, validator, myArticles);
 
 articleRoutes.get("/articles/:id", authMiddleware, authAdmin, validator, findArticleIDValidations, getArticleById);
 
 articleRoutes.put("/articles/:id", authMiddleware, authAdmin, validator, updateArticleValidations, updateArticle);
 
 articleRoutes.delete("/articles/:id", authMiddleware, authAdmin, validator, deletedArticleValidations, deleteArticle);
+
+

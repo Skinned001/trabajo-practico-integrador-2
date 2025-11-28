@@ -1,4 +1,5 @@
 import { ArticleModel } from "../models/article.model.js";
+import { CommentModel } from "../models/comment.model.js";
 
 
 export const createArticle = async (req, res) => {
@@ -71,7 +72,7 @@ export const myArticles = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            msg: "Error interno del servidor"
+            msg: "Error interno del sssservidor"
         });
     }
 };
@@ -113,7 +114,6 @@ export const deleteArticle = async (req, res) => {
         await CommentModel.deleteMany({ article: id });
         res.status(200).json({
             msg: "Artículo y comentarios pertenecientes eliminados",
-            deletedArticle,
         });
     } catch (error) {
         return res.status(500).json({

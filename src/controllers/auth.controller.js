@@ -71,10 +71,11 @@ export const profile = async (req, res) => {
     try {
         const currentUser = req.userLogged;
         res.status(200).json({
-            first_name: user.first_name,
-            last_name: user.last_name,
+            first_name: currentUser.first_name,
+            last_name: currentUser.last_name,
         });
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             ok: false,
             msg: "Error interno del servidor"

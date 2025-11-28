@@ -1,6 +1,5 @@
 import { Router } from "express";
 import {
-    createUser,
     getAllUsers,
     getUserById,
     updateUser,
@@ -17,7 +16,6 @@ import {
 
 export const userRoutes = Router();
 
-//userRoutes.post("/users", authMiddleware, authAdmin, createUser);
 
 userRoutes.get("/users", authMiddleware, authAdmin, getAllUsers);
 

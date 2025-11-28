@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
     createComment,
     getAllComments,
-    getCommentById,
+    getCommentsFromArticle,
     updateComment,
     deleteComment
 } from "../controllers/comment.controller.js";
@@ -22,7 +22,7 @@ commentRoutes.post("/comments", authMiddleware, authAdmin, validator, createComm
 
 commentRoutes.get("/comments", authMiddleware, authAdmin, validator, getAllComments);
 
-commentRoutes.get("/comments/:id", authMiddleware, authAdmin, validator, findCommentIDValidations, getCommentById);
+commentRoutes.get("/comments/article/:id", authMiddleware, authAdmin, validator, getCommentsFromArticle);
 
 commentRoutes.put("/comments/:id", authMiddleware, authAdmin, validator, updateCommentValidations, updateComment);
 

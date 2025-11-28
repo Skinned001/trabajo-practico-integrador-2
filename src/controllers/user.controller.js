@@ -21,20 +21,15 @@ export const createUser = async (req, res) => {
 };
 
 export const getAllUsers = async (req, res) => {
-    try {
-        const listAll = await UserModel.find().populate("article");
-        res.status(200).json({
-            ok: true,
-            msg: "Mostrando a todos los usuarios",
-            listAll,
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            ok: false,
-            msg: "Error interno del servidor",
-        });
-    }
+  try {
+    const listAll = await UserModel.find().populate("article");
+    res.status(200).json({
+      msg: "Listando usuarios con sus artículos",
+      listAll,
+    });
+  } catch (error) {
+    return res.status(500).json("Error al listar el usuario " + error);
+  }
 };
 
 export const getUserById = async (req, res) => {
